@@ -4,8 +4,9 @@ set incsearch
 set smartcase
 set showmatch
 set showcmd
+set hidden
 
-set background=dark
+set background=light
 colorscheme default
 syntax on
 
@@ -21,6 +22,7 @@ map <leader>t :FuzzyFinderTextMate<CR>
 map <leader>b :FuzzyFinderBuffer<CR>
 
 map <leader>d :execute 'NERDTreeToggle ' . getcwd()<CR>
+nnoremap <C-B> :BufExplorer<cr>
 
 set textwidth=79
 set tabstop=2
