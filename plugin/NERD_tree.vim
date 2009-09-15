@@ -80,7 +80,12 @@ endif
 let s:NERDTreeSortStarIndex = index(g:NERDTreeSortOrder, '*')
 
 if !exists('g:NERDTreeStatusline')
-    let g:NERDTreeStatusline = "%{b:NERDTreeRoot.path.str()}"
+
+    "the exists() crap here is a hack to stop vim spazzing out when
+    "loading a session that was created with an open nerd tree. It spazzes
+    "because it doesnt store b:NERDTreeRoot (its a b: var, and its a hash)
+    let g:NERDTreeStatusline = "%{exists('b:NERDTreeRoot')?b:NERDTreeRoot.path.str():''}"
+
 endif
 call s:initVariable("g:NERDTreeWinPos", "left")
 call s:initVariable("g:NERDTreeWinSize", 31)
@@ -511,9 +516,7 @@ function! s:MenuController._echoPrompt()
 
     for i in range(0, len(self.menuItems)-1)
         if self.selection == i
-            echohl todo
             echo "> " . self.menuItems[i].text
-            echohl normal
         else
             echo "  " . self.menuItems[i].text
         endif
@@ -1799,9 +1802,9 @@ function! s:Path.cacheDisplayString()
 endfunction
 "FUNCTION: Path.changeToDir() {{{3
 function! s:Path.changeToDir()
-    let dir = self.strForCd()
+    let dir = self.str({'format': 'Cd'})
     if self.isDirectory ==# 0
-        let dir = self.getParent().strForCd()
+        let dir = self.getParent().str({'format': 'Cd'})
     endif
 
     try
@@ -2013,7 +2016,12 @@ endfunction
 "Return:
 "a new Path object
 function! s:Path.getParent()
-    let path = '/'. join(self.pathSegments[0:-2], '/')
+    if s:running_windows
+        let path = self.drive . '\' . join(self.pathSegments[0:-2], '\')
+    else
+        let path = '/'. join(self.pathSegments[0:-2], '/')
+    endif
+
     return s:Path.New(path)
 endfunction
 "FUNCTION: Path.getLastPathComponent(dirSlash) {{{3
@@ -2247,11 +2255,7 @@ endfunction
 "
 " returns a string that can be used with :cd
 function! s:Path._strForCd()
-    if s:running_windows
-        return self.str()
-    else
-        return self.str({'escape': 1})
-    endif
+    return escape(self.str(), s:escape_chars)
 endfunction
 "FUNCTION: Path._strForEdit() {{{3
 "
@@ -2425,7 +2429,7 @@ function! s:initNerdTree(name)
     "if instructed to, then change the vim CWD to the dir the NERDTree is
     "inited in
     if g:NERDTreeChDirMode != 0
-        exec 'cd ' . path.strForCd()
+        call path.changeToDir()
     endif
 
     if s:treeExistsForTab()
@@ -3924,7 +3928,7 @@ function! s:upDir(keepState)
         endif
 
         if g:NERDTreeChDirMode ==# 2
-            exec 'cd ' . b:NERDTreeRoot.path.strForCd()
+            call b:NERDTreeRoot.path.changeToDir()
         endif
 
         call s:renderView()
