@@ -583,7 +583,11 @@ function! s:app_calculate_file_type(path) dict
     let r = "task"
   elseif f =~ '\<log/.*\.log$'
     let r = "log"
-  elseif e == "css" || e == "js" || e == "html"
+  elseif e == "css" || e == "sass"
+    let r = "stylesheet-".e
+  elseif e == "js"
+    let r = "javascript"
+  elseif e == "html"
     let r = e
   elseif f =~ '\<config/routes\>.*\.rb$'
     let r = "config-routes"
@@ -813,8 +817,13 @@ endfunction
 
 function! rails#new_app_command(bang,...)
   if a:0 == 0
-    if a:bang
-      echo "rails.vim version ".g:autoloaded_rails
+    let msg = "rails.vim ".g:autoloaded_rails
+    if a:bang && exists('b:rails_root') && RailsFileType() == ''
+      echo msg." (Rails)"
+    elseif a:bang && exists('b:rails_root')
+      echo msg." (Rails-".RailsFileType().")"
+    elseif a:bang
+      echo msg
     else
       !rails
     endif
@@ -1091,6 +1100,8 @@ function! s:default_rake_task(lnum)
     else
       return 'db:migrate'
     endif
+  elseif RailsFilePath() =~# '\<db/seeds\.rb$'
+    return 'db:seed'
   elseif self.has('spec') && RailsFilePath() =~# '^app/.*\.rb' && self.has_file(s:sub(RailsFilePath(),'^app/(.*)\.rb$','spec/\1_spec.rb'))
     return 'spec SPEC="%:p:r:s?[\/]app[\/]?/spec/?_spec.rb" SPEC_OPTS='
   elseif t=~ '^model\>'
@@ -3512,10 +3523,10 @@ endfunction
 
 function! s:addtostatus(letter,status)
   let status = a:status
-  if status !~ 'Rails' && g:rails_statusline
-    let   status=substitute(status,'\C%'.tolower(a:letter),'%'.tolower(a:letter).'%{RailsStatusline()}','')
-    if status !~ 'Rails'
-      let status=substitute(status,'\C%'.toupper(a:letter),'%'.toupper(a:letter).'%{RailsSTATUSLINE()}','')
+  if status !~ 'rails' && g:rails_statusline
+    let   status=substitute(status,'\C%'.tolower(a:letter),'%'.tolower(a:letter).'%{rails#statusline()}','')
+    if status !~ 'rails'
+      let status=substitute(status,'\C%'.toupper(a:letter),'%'.toupper(a:letter).'%{rails#STATUSLINE()}','')
     endif
   endif
   return status
@@ -3550,26 +3561,26 @@ endfunction
 
 function! s:InjectIntoStatusline(status)
   let status = a:status
-  if status !~ 'Rails'
+  if status !~ 'rails'
     let status = s:addtostatus('y',status)
     let status = s:addtostatus('r',status)
     let status = s:addtostatus('m',status)
     let status = s:addtostatus('w',status)
     let status = s:addtostatus('h',status)
-    if status !~ 'Rails'
-      let status=substitute(status,'%=','%{RailsStatusline()}%=','')
+    if status !~ 'rails'
+      let status=substitute(status,'%=','%{rails#statusline()}%=','')
     endif
-    if status !~ 'Rails' && status != ''
-      let status .= '%{RailsStatusline()}'
+    if status !~ 'rails' && status != ''
+      let status .= '%{rails#statusline()}'
     endif
   endif
   return status
 endfunction
 
-function! RailsStatusline()
+function! rails#statusline(...)
   if exists("b:rails_root")
     let t = RailsFileType()
-    if t != ""
+    if t != "" && a:0 && a:1
       return "[Rails-".t."]"
     else
       return "[Rails]"
@@ -3579,10 +3590,10 @@ function! RailsStatusline()
   endif
 endfunction
 
-function! RailsSTATUSLINE()
+function! rails#STATUSLINE(...)
   if exists("b:rails_root")
     let t = RailsFileType()
-    if t != ""
+    if t != "" && a:0 && a:1
       return ",RAILS-".toupper(t)
     else
       return ",RAILS"
