@@ -1,17 +1,13 @@
-set nocompatible
-set ignorecase
-set incsearch
-set smartcase
-set showmatch
-set showcmd
-set hidden
+set textwidth=79 ts=2 sw=2 cindent autoindent smarttab expandtab backspace=indent,eol,start
+set encoding=utf-8 fileencoding=utf-8
+set nobackup nowritebackup noswapfile autoread
+set number hlsearch incsearch ignorecase smartcase
+
+set nocompatible ignorecase incsearch smartcase showmatch showcmd hidden
 
 set background=light
 colorscheme default
 syntax on
-
-set nobackup
-set nowritebackup
 
 let mapleader=","
 
@@ -28,15 +24,6 @@ map <leader>nw :set nowrap<CR>
 map <leader>d :execute 'NERDTreeToggle ' . getcwd()<CR>
 nnoremap <C-B> :BufExplorer<cr>
 nnoremap <C-L> :nohlsearch<cr>
-
-set textwidth=79
-set tabstop=2
-set shiftwidth=2
-set cindent
-set autoindent
-set smarttab
-set expandtab
-set backspace=indent,eol,start
 
 filetype on
 filetype indent on

@@ -11,6 +11,3 @@ colorscheme ir_black
 set columns=120
 set lines=50
 
-set number
-set hlsearch
-
