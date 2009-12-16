@@ -16,15 +16,15 @@ let g:fuzzy_ignore = "gems/*"
 let g:fuzzy_ignore = ".git"
 let g:fuzzy_matching_limit = 60
  
-map <leader>t :FuzzyFinderTextMate<CR>
-map <leader>b :FuzzyFinderBuffer<CR>
+nnoremap <leader>t :FuzzyFinderTextMate<CR>
+nnoremap <leader>b :FuzzyFinderBuffer<CR>
 
-map <leader>w :set wrap<CR>
-map <leader>nw :set nowrap<CR>
-map <leader>d :execute 'NERDTreeToggle ' . getcwd()<CR>
-map <leader>f :execute 'NERDTreeFind'<CR>
-nnoremap <C-B> :BufExplorer<cr>
-nnoremap <C-L> :nohlsearch<cr>
+nnoremap <leader>w :set wrap<CR>
+nnoremap <leader>nw :set nowrap<CR>
+nnoremap <leader>d :NERDTreeToggle<cr>
+nnoremap <leader>f :NERDTreeFind<CR>
+nnoremap <C-B> :BufExplorer<CR>
+nnoremap <C-L> :nohlsearch<CR>
 
 filetype on
 filetype indent on
