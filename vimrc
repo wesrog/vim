@@ -22,6 +22,7 @@ map <leader>b :FuzzyFinderBuffer<CR>
 map <leader>w :set wrap<CR>
 map <leader>nw :set nowrap<CR>
 map <leader>d :execute 'NERDTreeToggle ' . getcwd()<CR>
+map <leader>f :execute 'NERDTreeFind'<CR>
 nnoremap <C-B> :BufExplorer<cr>
 nnoremap <C-L> :nohlsearch<cr>
 
@@ -32,3 +33,5 @@ filetype plugin on
 "set nu
 "set sts=2
 "set sw=2
+"
+set grepprg=ack\ -a
