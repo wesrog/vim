@@ -5,6 +5,8 @@ set number hlsearch incsearch ignorecase smartcase
 
 set nocompatible ignorecase incsearch smartcase showmatch showcmd hidden
 
+set statusline=%t[%{strlen(&fenc)?&fenc:'none'},%{&ff}]%h%m%r%y%=%c,%l/%L\ %P
+
 set background=light
 colorscheme default
 syntax on
