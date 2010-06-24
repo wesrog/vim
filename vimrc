@@ -1,4 +1,4 @@
-set ts=2 sw=2 cindent autoindent smarttab expandtab backspace=indent,eol,start
+set ts=4 sw=2 cindent autoindent smarttab expandtab backspace=indent,eol,start
 set encoding=utf-8 fileencoding=utf-8
 set nobackup nowritebackup noswapfile autoread
 set number hlsearch incsearch ignorecase smartcase
@@ -8,7 +8,8 @@ set nocompatible ignorecase incsearch smartcase showmatch showcmd hidden
 set statusline=%t[%{strlen(&fenc)?&fenc:'none'},%{&ff}]%h%m%r%y%=%c,%l/%L\ %P
 
 set background=light
-colorscheme default
+"colorscheme koehler
+color vibrantink
 syntax on
 
 let mapleader=","
