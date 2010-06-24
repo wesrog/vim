@@ -27,6 +27,7 @@ nnoremap <leader>t :FufFile<CR>
 nnoremap <leader>ff :FuzzyFinderTextMate<CR>
 "nnoremap <leader>b :FuzzyFinderBuffer<CR>
 nnoremap <leader>b :FufBuffer<CR>
+nnoremap <leader>c :TlistToggle<CR>
 
 nnoremap <leader>w :set wrap<CR>
 nnoremap <leader>nw :set nowrap<CR>
