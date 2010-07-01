@@ -7,10 +7,9 @@ set nocompatible ignorecase incsearch smartcase showmatch showcmd hidden
 
 set statusline=%t[%{strlen(&fenc)?&fenc:'none'},%{&ff}]%h%m%r%y%=%c,%l/%L\ %P
 
-set background=light
-"colorscheme koehler
-color vibrantink
+"set background=light
 syntax on
+color vibrantink
 
 let mapleader=","
 
@@ -41,3 +40,5 @@ filetype indent on
 filetype plugin on
 
 set grepprg=ack\ -a
+
+source $HOME/.vim/pyvimrc
