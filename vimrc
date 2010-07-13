@@ -6,6 +6,7 @@ set number hlsearch incsearch ignorecase smartcase
 set nocompatible ignorecase incsearch smartcase showmatch showcmd hidden
 
 set statusline=%t[%{strlen(&fenc)?&fenc:'none'},%{&ff}]%h%m%r%y%=%c,%l/%L\ %P
+set mouse=a
 
 "set background=light
 syntax on
@@ -27,6 +28,7 @@ nnoremap <leader>ff :FuzzyFinderTextMate<CR>
 "nnoremap <leader>b :FuzzyFinderBuffer<CR>
 nnoremap <leader>b :FufBuffer<CR>
 nnoremap <leader>c :TlistToggle<CR>
+let Tlist_Use_Right_Window = 1
 
 nnoremap <leader>w :set wrap<CR>
 nnoremap <leader>nw :set nowrap<CR>
@@ -35,9 +37,7 @@ nnoremap <leader>f :NERDTreeFind<CR>
 nnoremap <C-B> :BufExplorer<CR>
 nnoremap <C-L> :nohlsearch<CR>
 
-filetype on
-filetype indent on
-filetype plugin on
+filetype plugin indent on
 
 set grepprg=ack\ -a
 
