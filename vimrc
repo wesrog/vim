@@ -58,6 +58,7 @@ colorscheme vibrantink
 let python_highlight_all = 1
 au FileType python syn keyword pythonDecorator True None False self
 au BufNewFile,BufRead *.myt set ft=mako
+au BufRead *.rb set ts=2 sw=2 tw=0
 "Delete trailing white space, useful for Python ;)
 func! DeleteTrailingWS()
     exe "normal mz"
