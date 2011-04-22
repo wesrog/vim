@@ -16,6 +16,7 @@ set si "Smart indet
 set wrap "Wrap lines
 
 "set ts=4 sw=2 cindent autoindent smarttab expandtab backspace=indent,eol,start
+set backspace=indent,eol,start
 set encoding=utf-8 fileencoding=utf-8
 set nobackup nowritebackup noswapfile autoread
 set number hlsearch incsearch ignorecase smartcase
@@ -42,6 +43,7 @@ noremap <leader>y :CommandTFlush<cr>
 nnoremap <leader>c :TlistToggle<CR>
 let Tlist_Use_Right_Window = 1
 
+nnoremap <ctrl>6 :b#<CR>
 nnoremap <leader>w :set wrap<CR>
 nnoremap <leader>nw :set nowrap<CR>
 nnoremap <leader>d :NERDTreeToggle<cr>
@@ -57,7 +59,7 @@ colorscheme vibrantink
 
 let python_highlight_all = 1
 au FileType python syn keyword pythonDecorator True None False self
-au BufNewFile,BufRead *.myt set ft=mako
+au BufNewFile,BufRead *.myt,*.mako set ft=mako
 au BufRead *.rb set ts=2 sw=2 tw=0
 "Delete trailing white space, useful for Python ;)
 func! DeleteTrailingWS()
@@ -65,7 +67,8 @@ func! DeleteTrailingWS()
     %s/\s\+$//ge
     exe "normal `z"
 endfunc
-autocmd BufWrite *.py :call DeleteTrailingWS()
+"autocmd BufWrite *.py :call DeleteTrailingWS()
+"autocmd FileType python set complete+=k~/.vim/syntax/python.vim isk+=.,(
 
 "let g:bufExplorerDefaultHelp=0
 let g:bufExplorerShowRelativePath=1
